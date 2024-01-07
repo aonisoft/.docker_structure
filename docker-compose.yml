@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+
+  apache:
+    image: httpd:alpine 
+  phpfpm:
+    build: "./dockerfiles_space/php"
+  db:
+    image: mariadb:lts
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
