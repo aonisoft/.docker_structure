@@ -3,10 +3,13 @@ version: "3"
 services:
 
   sonarqube:
+  
     build:
       context: ../dockerfiles/sonarqube
+      args:
+        IMAGE_NAME_SONAR: ${IMAGES_SONARQUBE}
 
-    image: sonarqube-scanner:lts
+    image: ${IMAGES_SONARQUBE_SCANNER}
 
     hostname: ${SONARQUBE_CONTAINER_HOSTNAME}
 
@@ -27,17 +30,17 @@ services:
       - SONARQUBE_JDBC_PASSWORD=sonar
 
     volumes:
-      - ../var/sonarqube/conf:/opt/sonarqube/conf:z
-      - ../var/sonarqube/data:/opt/sonarqube/data:z
-      - ../var/sonarqube/extensions:/opt/sonarqube/extensions:z
-      - ../var/sonarqube/plugins:/opt/sonarqube/lib/bundled-plugins:z
+      - ${PATH_VAR}sonarqube/conf:/opt/sonarqube/conf:z
+      - ${PATH_VAR}sonarqube/data:/opt/sonarqube/data:z
+      - ${PATH_VAR}sonarqube/extensions:/opt/sonarqube/extensions:z
+      - ${PATH_VAR}sonarqube/plugins:/opt/sonarqube/lib/bundled-plugins:z
       - ${PATH_PROJECT_VOLUME}:/website_test:z
 
     depends_on:
       - db_sonar
 
   db_sonar:
-    image: postgres:latest
+    image: ${IMAGES_POSTGRES}
 
     container_name: ${SONARQUBE_DB_CONTAINER_NAME}
 
@@ -53,8 +56,8 @@ services:
       - POSTGRES_PASSWORD=sonar
     
     volumes:
-      - ../var/sonarqube/database:/var/lib/postgresql:z
-      - ../var/sonarqube/database/data:/var/lib/postgresql/data:z
+      - ${PATH_VAR}sonarqube/database:/var/lib/postgresql:z
+      - ${PATH_VAR}sonarqube/database/data:/var/lib/postgresql/data:z
 
 networks:
   internal_network:
