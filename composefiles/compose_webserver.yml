@@ -4,9 +4,16 @@ services:
 
   apache:
     image: httpd:alpine 
+    
+
   phpfpm:
-    build: "./dockerfiles_space/php"
+    build: "../dockerfiles/php"
+
+    
   db:
     image: mariadb:lts
+
+
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin:apache
+    
