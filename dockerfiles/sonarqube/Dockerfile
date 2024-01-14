@@ -1,4 +1,6 @@
-FROM sonarqube:lts
+ARG IMAGE_NAME_SONAR=
+
+FROM ${IMAGE_NAME_SONAR}
 
 USER root
 

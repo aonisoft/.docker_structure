@@ -1,4 +1,6 @@
-FROM php:8.2-fpm-alpine
+ARG IMAGE_NAME_PHP=
+
+FROM ${IMAGE_NAME_PHP}
 
 RUN apk --update --no-cache upgrade
 
