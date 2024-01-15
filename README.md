@@ -232,6 +232,11 @@ docker-compose -f composefiles/compose_webserver.yml down
 docker exec -it php_fpm composer **command**
 
 ```
+# Sitios de inspiración
+
+[Estructura base que utilizada](https://github.com/ger86/librarify-back-symfony6/tree/master/.docker)
+
+[Dockerfile para php](https://github.com/CodelyTV/php-ddd-example/blob/main/Dockerfile)
 
 
 # Contribuciones
