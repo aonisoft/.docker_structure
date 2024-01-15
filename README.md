@@ -148,7 +148,7 @@ Copiar el archivo .env-example y ajusta las variables de entorno a gusto
 
 ```bash
 
-cp .env-example .env
+cp composefiles/.env-example composefiles/.env
 
 ```
 
