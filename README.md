@@ -136,6 +136,15 @@ más información.
 
 Clonar este repositorio dentro de la carpeta que tiene el proyecto web
 
+Por https
+```bash
+
+git clone https://github.com/aonisoft/docker-structure-website.git .docker && \
+cd .docker
+
+```
+
+Por ssh
 ```bash
 
 git clone git@github.com:aonisoft/docker-structure-website.git .docker && \
