@@ -3,7 +3,10 @@ version: "3.9"
 services:
 
   apache:
-    image: ${IMAGES_SERVER} 
+    build: 
+      context: "../dockerfiles/webserver"
+      args:
+        IMAGES_SERVER: ${IMAGES_SERVER} 
     
     container_name: ${WEBSITE_CONTAINER_NAME}
 
@@ -19,6 +22,7 @@ services:
       - PHP_CONTAINER_NAME=${PHP_CONTAINER_NAME}
       - PHP_ADMIN_CONTAINER_NAME=${PHP_ADMIN_CONTAINER_NAME}
       - SONARQUBE_CONTAINER_NAME=${SONARQUBE_CONTAINER_NAME}
+      - TZ=${TIMEZONE}
 
     ports:
      - "80:80"
@@ -50,6 +54,9 @@ services:
     hostname: ${PHP_CONTAINER_HOSTNAME}
 
     restart: "always"
+
+    environment:
+      - TZ=${TIMEZONE}
 
     expose:
       - 9090

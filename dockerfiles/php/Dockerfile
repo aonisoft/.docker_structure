@@ -1,4 +1,4 @@
-ARG IMAGE_NAME_PHP=
+ARG IMAGE_NAME_PHP
 
 FROM ${IMAGE_NAME_PHP}
 
@@ -7,7 +7,7 @@ RUN apk --update --no-cache upgrade
 RUN apk add --no-cache autoconf automake make gcc g++ \ 
                        git bash icu-dev libzip-dev rabbitmq-c \
                        rabbitmq-c-dev linux-headers           \
-                       icu-data-full libpng-dev 
+                       icu-data-full libpng-dev tzdata
 
 RUN pecl install apcu && pecl install amqp && pecl install xdebug 
 

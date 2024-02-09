@@ -1,4 +1,4 @@
-ARG IMAGE_NAME_SONAR=
+ARG IMAGE_NAME_SONAR
 
 FROM ${IMAGE_NAME_SONAR}
 
@@ -8,7 +8,7 @@ COPY entrypoint.sh $SONARQUBE_HOME/docker
 
 RUN mkhomedir_helper sonarqube
 
-RUN apt-get update && apt-get -y install unzip 
+RUN apt-get update && apt-get -y install unzip tzdata
 
 RUN wget "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip"
 
