@@ -6,7 +6,7 @@ services:
     build: 
       context: "../dockerfiles/webserver"
       args:
-        IMAGES_SERVER: ${IMAGES_SERVER} 
+        IMAGE_SERVER: ${IMAGE_SERVER} 
     
     container_name: ${WEBSITE_CONTAINER_NAME}
 
@@ -45,9 +45,9 @@ services:
     build: 
       context: "../dockerfiles/php"
       args:
-        IMAGE_NAME_PHP: ${IMAGES_PHP}
+        IMAGE_NAME_PHP: ${IMAGE_PHP}
 
-    image: ${IMAGES_PHP_COMPOSER}
+    image: ${IMAGE_PHP_COMPOSER}
 
     container_name: ${PHP_CONTAINER_NAME}
 
@@ -74,7 +74,7 @@ services:
 
     
   db:
-    image: ${IMAGES_SERVER_DB}
+    image: ${IMAGE_SERVER_DB}
 
     container_name: ${DATABASE_CONTAINER_NAME}
 
@@ -106,7 +106,7 @@ services:
 
 
   phpmyadmin:
-    image: ${IMAGES_MYADMINPHP}
+    image: ${IMAGE_MYADMINPHP}
     
     container_name: ${PHP_ADMIN_CONTAINER_NAME}
 

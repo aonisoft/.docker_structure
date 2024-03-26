@@ -7,9 +7,9 @@ services:
     build:
       context: ../dockerfiles/sonarqube
       args:
-        IMAGE_NAME_SONAR: ${IMAGES_SONARQUBE}
+        IMAGE_NAME_SONAR: ${IMAGE_SONARQUBE}
 
-    image: ${IMAGES_SONARQUBE_SCANNER}
+    image: ${IMAGE_SONARQUBE_SCANNER}
 
     hostname: ${SONARQUBE_CONTAINER_HOSTNAME}
 
@@ -44,7 +44,7 @@ services:
     build:
        context: ../dockerfiles/database/sonarqube
        args:
-         IMAGES_POSTGRES: ${IMAGES_POSTGRES}
+         IMAGE_POSTGRES: ${IMAGE_POSTGRES}
 
     container_name: ${SONARQUBE_DB_CONTAINER_NAME}
 
@@ -65,7 +65,7 @@ services:
       - ${PATH_VAR}sonarqube/database/data:/var/lib/postgresql/data:z
 
   apache:
-    image: ${IMAGES_SERVER} 
+    image: ${IMAGE_SERVER} 
     
     container_name: ${WEBSITE_CONTAINER_NAME}
 

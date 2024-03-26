@@ -1,6 +1,6 @@
-ARG IMAGES_SERVER
+ARG IMAGE_SERVER
 
-FROM ${IMAGES_SERVER}
+FROM ${IMAGE_SERVER}
 
 RUN apk --update --no-cache upgrade
 
