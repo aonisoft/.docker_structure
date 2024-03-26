@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+
+  frontend:
+  
+    image: ${IMAGE_NODE}
+  
+    hostname: ${NODE_CONTAINER_HOSTNAME}
+
+    container_name: ${NODE_CONTAINER_NAME}
+
+    restart: "always"
+
+    command: yarn dev --port 3032 --host
+
+    ports:
+      - 3032:3032
+  
+    networks:
+      - external_network
+
+    volumes:
+      - ${PATH_PROJECT_FRONTEND_VOLUME}:/frontend:z,cached
+    
+    working_dir: /frontend
+
+
+networks:
+  external_network:
+    external: true
