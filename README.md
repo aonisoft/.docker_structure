@@ -1,4 +1,4 @@
-# Plantilla de Docker para usar en proyectos web
+# Plantilla de contenedores para usar en proyectos web
 
 ## Introducción
 
@@ -9,6 +9,7 @@ tecnológico:
 * Php-fpm
 * MariaDB
 * Myphpadmin
+* Sonarqube
 
 
 > [!NOTE]
@@ -20,9 +21,14 @@ en:
 
 + Docker
 + Docker Compose
++ Podman
 + GNU/Linux
 + Terminal
 + Systemctl
+
+## Instalando gestor de contenedores
+
+Para instalar docker revisar la [guía](./docs/docker/installer.md)
 
 
 
@@ -151,6 +157,42 @@ git clone git@github.com:aonisoft/docker-structure-website.git .docker && \
 cd .docker
 
 ```
+
+#### 💡 Recomendación 
+
+Al tener un frontend donde se tenga que utilizar cualquier tecnología sobre node
+se puede realizar la siguiente estructura de carpetas:
+
+```bash
+
+"project's name"
+├── .infra
+├── api
+└── frontend
+
+```
+> [!NOTE]
+> El directorio api puede llamarse también backend o server. Y en lugar de 
+> frontend puede ser cliente
+
+
+En caso que el proyecto no utilize `node` sino herramientas como twin o blade, 
+correspondientes a frameworks de `php`, se puede realizar la siguiente 
+estructura:
+
+```bash
+
+"project's name"
+├── .infra
+└── project
+    ├── config
+    ├── src
+    ├── tests
+    └── other files...
+
+```
+
+
 ### Segundo
 
 Copiar el archivo .env-example y ajusta las variables de entorno a gusto
@@ -161,91 +203,114 @@ cp composefiles/.env-example composefiles/.env
 
 ```
 
+Las variables que requieren ser revisadas y modificadas son:
 
+```bash
+
+DATABASE_NAME=
+
+ROOT_PASSWORD=
+
+PATH_PROJECT_VOLUME=
+
+TIMEZONE=
+
+URL_WEBSITE=
+
+URL_WEBSITE_ALIAS=
+
+URL_SONARQUBE=
+
+```
+
+> [!NOTE]
+> Algunas variables nombradas tienen por defecto algunos valores. Como 
+> `URL_PHP_ADMIN` o `URL_SONARQUBE` 
+
+
+### Tercero
+
+Configura el archivo hosts con las urls que tengas configuradas para que sean 
+visibles dentro de tu sistema.
+
+Este archivo esta en
+
+```bash
+
+/etc/hosts
+
+```
+
+Donde se tiene que colocar al final del todo una linea como la siguiente. Donde
+las urls se colocan una después de la otra.
+
+
+```vim
+
+127.0.0.1 phpadmin.loc sonarqube.tests
+
+```
 
 ## Levantar los servicios del servidor
 
+Para docker revisar la [guía](./docs/docker/load_containers.md)
 
-Ejecutar el servicio de docker se debe realizar:
+Para podman revisar la [guía](./docs/podman/load_containers.md)
 
-
-> [!IMPORTANT]
-> Realizar el `build` la primera vez luego de clonarlo o cuando se tenga que 
-> reconstruir la imagen
-
-
-```bash
-
-docker-compose -f composefiles/compose_webserver.yml build --no-cache
-
-```
-
-
-El que levanta todos los servicios php, apache, mariadb y phpmyadmin es:
-
-```bash
-
-docker-compose -f composefiles/compose_webserver.yml up -d
-
-```
-
-
-
-
-## Levantar los servicios de sonarqube
-
-Los servicios para ejecutar sonarqube requiere que estén levantados los 
-servicios del servidor para poder utilizarlo.
-
-> [!IMPORTANT]
-> Realizar el `build` la primera vez o cuando se tenga que reconstruir la imagen
-
-
-```bash
-
-docker-compose -f composefiles/compose_sonarqube.yml build --no-cache
-
-```
-
-
-```bash
-
-docker-compose -f composefiles/compose_sonarqube.yml up -d
-
-```
-
-> [!IMPORTANT]
-> Demora unos segundos en iniciar
-
-
-## Bajar los servicios del servidor y sonarqube
-
-
-```bash
-
-docker-compose -f composefiles/compose_sonarqube.yml down
-
-```
-
-```bash
-
-docker-compose -f composefiles/compose_webserver.yml down
-
-```
 
 ## Ejecutar composer desde el contenedor
 
+Utilizando docker  
 
 ```bash
 
 docker exec -it php_fpm composer **command**
 
 ```
+Utilizando podman
+
+```bash
+
+podman exec -it php_fpm composer **command**
+
+```
+
+## Ejecutar node para el frontend
+
+Si se requiere de algún framework de javascript se debe simplemente configurar
+las variables de entorno correspondientes:
+
+```bash
+
+PATH_PROJECT_FRONTEND_VOLUME=
+
+URL_FRONTEND=
+
+URL_FRONTEND_ALIAS=
+
+```
+
+> [!IMPORTANT]
+> No olvidarse de actualizar el archivo `hosts` con las url para el front
+
+Guía para creación e instalación del frontend usando [docker](./docs/docker/frontend_install.md)  
+
+Guía para creación e instalación del frontend usando [podman](./docs/podman/frontend_install.md)  
+
+> [!NOTE]
+> Esto es a modo de ejemplo. Puede cambiarse lo referente a `vite` o `yarn` por
+> lo que requieras usar. Si cambiaste el nombre del contenedor de `frontend` a
+> algún otro nombre, en el archivo `compose_frontend.yml` deberías cambiarlo 
+> aquí también.
+
+
 # Sitios de inspiración
 
 [Estructura base que utiliza](https://github.com/ger86/librarify-back-symfony6/tree/master/.docker)
 
 [Dockerfile para php](https://github.com/CodelyTV/php-ddd-example/blob/main/Dockerfile)
+
+[Solución a problemas con Node](https://www.youtube.com/watch?v=qdqN8v5iU14)
 
 
 # Contribuciones
