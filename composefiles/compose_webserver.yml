@@ -4,7 +4,8 @@ services:
 
   apache:
     build: 
-      context: "../dockerfiles/webserver"
+      context: "../containerfiles/webserver"
+      dockerfile: Containerfile
       args:
         IMAGE_SERVER: ${IMAGE_SERVER} 
     
@@ -25,7 +26,7 @@ services:
       - TZ=${TIMEZONE}
 
     ports:
-     - "80:80"
+     - "8080:80"
 
     networks:
       - external_network
@@ -43,7 +44,8 @@ services:
   phpfpm:
     
     build: 
-      context: "../dockerfiles/php"
+      context: "../containerfiles/php"
+      dockerfile: Containerfile
       args:
         IMAGE_NAME_PHP: ${IMAGE_PHP}
 
@@ -74,24 +76,33 @@ services:
 
     
   db:
-    image: ${IMAGE_SERVER_DB}
+    build: 
+      context: "../containerfiles/database/server"
+      dockerfile: Containerfile
+      args:
+        - IMAGE_DATABASE_SERVER=${IMAGE_SERVER_DB}
+        - UID=${UID}
+
 
     container_name: ${DATABASE_CONTAINER_NAME}
 
     hostname: ${DATABASE_CONTAINER_HOSTNAME}
     
     restart: "always"
-    
+
+    privileged: true
+
     ports: 
       - 3306:3306
 
     networks:
       - internal_network
 
+    x-podman:
+      userns_mode: keep-id
+
     command: --default-authentication-plugin=mysql_native_password
-
-    privileged: true
-
+       
     environment:
       - DATABASE=${DATABASE_NAME}
       - USER=${DATABASE_USER}
@@ -113,7 +124,6 @@ services:
     hostname: ${PHP_ADMIN_CONTAINER_HOSTNAME}
 
     networks:
-      - external_network
       - internal_network
 
     expose:

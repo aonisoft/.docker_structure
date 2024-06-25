@@ -5,7 +5,8 @@ services:
   sonarqube:
   
     build:
-      context: ../dockerfiles/sonarqube
+      context: ../containerfiles/sonarqube
+      dockerfile: Containerfile
       args:
         IMAGE_NAME_SONAR: ${IMAGE_SONARQUBE}
 
@@ -42,7 +43,8 @@ services:
 
   db_sonar:
     build:
-       context: ../dockerfiles/database/sonarqube
+       context: ../containerfiles/database/sonarqube
+       dockerfile: Containerfile
        args:
          IMAGE_POSTGRES: ${IMAGE_POSTGRES}
 
@@ -63,24 +65,6 @@ services:
     volumes:
       - ${PATH_VAR}sonarqube/database:/var/lib/postgresql:z
       - ${PATH_VAR}sonarqube/database/data:/var/lib/postgresql/data:z
-
-  apache:
-    image: ${IMAGE_SERVER} 
-    
-    container_name: ${WEBSITE_CONTAINER_NAME}
-
-    hostname: ${WEBSITE_CONTAINER_HOSTNAME}
-
-    restart: "always"
-
-    environment:
-      - URL_WEBSITE=${URL_WEBSITE}
-      - URL_WEBSITE_ALIAS=${URL_WEBSITE_ALIAS}
-      - URL_PHP_ADMIN=${URL_PHP_ADMIN}
-      - URL_SONARQUBE=${URL_SONARQUBE}
-      - PHP_CONTAINER_NAME=${PHP_CONTAINER_NAME}
-      - PHP_ADMIN_CONTAINER_NAME=${PHP_ADMIN_CONTAINER_NAME}
-      - SONARQUBE_CONTAINER_NAME=${SONARQUBE_CONTAINER_NAME}
 
 networks:
   internal_network:
